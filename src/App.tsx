@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { useGetBackground } from "./hooks";
-import Todo from "./components/Todo";
-import { Context } from "./context";
+import { useGetBackground } from "@/hooks/index";
+import Todo from "@/components/Todo";
+import { Context } from "@/context/index";
 
 function App() {
   const { theme } = useContext(Context);
@@ -20,17 +20,19 @@ function App() {
   }, []);
   return (
     <main className={`min-h-screen flex flex-col relative`}>
-      <img
-        src={background?.image || ""}
-        alt="background"
-        height={background?.size?.height || 0}
-        width={background?.size?.width || 0}
-        className="w-full"
-      />
-      <div className="absolute left-0 top-20 w-full">
+      <div>
+        <img
+          src={background?.image || ""}
+          alt="background"
+          height={background?.size?.height || 0}
+          width={background?.size?.width || 0}
+          className="w-full"
+        />
+      </div>
+      <div className="absolute left-0 top-5 md:top-20 w-full">
         <Todo />
       </div>
-      <div className="bg-[#fbfafb] dark:bg-[#181824] flex-1"></div>
+      <div className="bg-[#fbfafb] dark:bg-[#181824] flex-1" />
     </main>
   );
 }
