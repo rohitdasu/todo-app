@@ -34,6 +34,14 @@ export const ContextProvider = (props: any) => {
     );
   };
 
+  const clearCompleted = () => {
+    pushToDoList(
+      todoList.filter((item: TodoListType) => {
+        return item.type !== "completed";
+      })
+    );
+  };
+
   React.useEffect(() => {
     if (todoList.length > 0) {
       window.localStorage.setItem("todo", JSON.stringify(todoList));
@@ -52,6 +60,7 @@ export const ContextProvider = (props: any) => {
     pushToDoList,
     deleteTask,
     setTaskComplete,
+    clearCompleted,
   };
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };

@@ -1,18 +1,20 @@
-import { Context, TodoList, FilterTabs } from "@/context/index";
+import { Context } from "@/context/index";
+import { FilterTabType, TodoListType } from "@/types/index";
 import React, { useContext } from "react";
 
 function TodoLIst() {
-  const { todoList, filterTabs, pushToDoList, deleteTask, setTaskComplete } =
+  const { todoList, filterTabs, clearCompleted, deleteTask, setTaskComplete } =
     useContext(Context);
   const [selectedFilterTab, setSelectedFilterTab] = React.useState("All");
 
   const getActiveTasksLength = () => {
-    return todoList.filter((item: TodoList) => item.type === "active").length;
+    return todoList.filter((item: TodoListType) => item.type === "active")
+      .length;
   };
 
   const getFilteredTasks = () => {
     return todoList
-      .filter((item: TodoList) => {
+      .filter((item: TodoListType) => {
         if (selectedFilterTab === "All") return true;
         else {
           return item.type === selectedFilterTab.toLowerCase();
@@ -24,7 +26,7 @@ function TodoLIst() {
   return (
     <div className="bg-[#fefeff] dark:bg-[#24273d] rounded-sm shadow">
       <ul className={`overflow-auto overflow-y-scroll max-h-[50vh]`}>
-        {getFilteredTasks().map((item: TodoList, idx: number) => {
+        {getFilteredTasks().map((item: TodoListType, idx: number) => {
           return (
             <li
               key={idx}
@@ -85,7 +87,7 @@ function TodoLIst() {
           {getActiveTasksLength()} items left
         </span>
         <div className="flex order-first md:order-none flex-row items-center gap-5 md:gap-3">
-          {filterTabs.map((tab: FilterTabs) => {
+          {filterTabs.map((tab: FilterTabType) => {
             return (
               <div
                 key={tab.id}
@@ -104,7 +106,7 @@ function TodoLIst() {
           })}
         </div>
         <span
-          onClick={() => pushToDoList([])}
+          onClick={() => clearCompleted()}
           className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 transition-all cursor-pointer"
         >
           Clear Completed
