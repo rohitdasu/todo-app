@@ -35,7 +35,11 @@ function TodoLIst() {
               <div className="flex flex-row gap-4">
                 <div
                   onClick={() => setTaskComplete(item.id)}
-                  className="h-6 w-6 flex items-center justify-center cursor-pointer border rounded-full border-gray-300 hover:border-gray-500 dark:border-gray-700 hover:dark:border-gray-600"
+                  className={`h-6 w-6 flex items-center justify-center cursor-pointer border rounded-full border-gray-300 hover:border-gray-500 dark:border-gray-700 hover:dark:border-gray-600 ${
+                    item.type === "completed"
+                      ? "!border-[#721C79] dark:!border-[#721C79]"
+                      : ""
+                  }`}
                 >
                   {item.type === "completed" && (
                     <svg
@@ -54,7 +58,9 @@ function TodoLIst() {
                 </div>
                 <div
                   className={`text-[#606272] dark:text-[#cbcce4] ${
-                    item.type === "completed" ? "line-through" : ""
+                    item.type === "completed"
+                      ? "line-through decoration-[#721C79] opacity-50"
+                      : ""
                   }`}
                 >
                   {item.name}
@@ -78,7 +84,7 @@ function TodoLIst() {
         })}
         {getFilteredTasks().length == 0 && (
           <p className="text-gray-900 dark:text-gray-400 w-full text-center py-3 animate-pulse">
-            No items
+            No items found 😟
           </p>
         )}
       </ul>
