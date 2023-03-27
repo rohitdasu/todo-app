@@ -51,7 +51,7 @@ export const ContextProvider = (props: any) => {
   }, [todoList]);
 
   React.useEffect(() => {
-    pushToDoList(JSON.parse(window.localStorage.getItem("todo") || ""));
+    pushToDoList(JSON.parse(window.localStorage.getItem("todo") || "[]"));
   }, []);
 
   const value = {
