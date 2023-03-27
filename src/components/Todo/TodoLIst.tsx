@@ -11,12 +11,14 @@ function TodoLIst() {
   };
 
   const getFilteredTasks = () => {
-    return todoList.filter((item: TodoList) => {
-      if (selectedFilterTab === "All") return true;
-      else {
-        return item.type === selectedFilterTab.toLowerCase();
-      }
-    });
+    return todoList
+      .filter((item: TodoList) => {
+        if (selectedFilterTab === "All") return true;
+        else {
+          return item.type === selectedFilterTab.toLowerCase();
+        }
+      })
+      .reverse();
   };
 
   return (
