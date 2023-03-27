@@ -2,9 +2,9 @@ import { Context, TodoList, FilterTabs } from "@/context/index";
 import React, { useContext } from "react";
 
 function TodoLIst() {
-  const { todoList, filterTabs } = useContext(Context);
+  const { todoList, filterTabs, pushToDoList, deleteTask, setTaskComplete } =
+    useContext(Context);
   const [selectedFilterTab, setSelectedFilterTab] = React.useState("All");
-  const [viewPortHeight, setviewPortHeight] = React.useState<number>(0);
 
   const getActiveTasksLength = () => {
     return todoList.filter((item: TodoList) => item.type === "active").length;
@@ -19,17 +19,6 @@ function TodoLIst() {
     });
   };
 
-  React.useEffect(() => {
-    function handleResize() {
-      setviewPortHeight(window.innerHeight);
-    }
-    window.addEventListener("resize", handleResize);
-    setviewPortHeight(window.innerHeight);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <div className="bg-[#fefeff] dark:bg-[#24273d] rounded-sm shadow">
       <ul className={`overflow-auto overflow-y-scroll max-h-[50vh]`}>
@@ -37,12 +26,49 @@ function TodoLIst() {
           return (
             <li
               key={idx}
-              className="flex flex-row items-center gap-4 p-4 border-b border-[#e9e6ea] dark:border-[#2c2e44] font-josefin"
+              className="flex group flex-row items-center justify-between p-4 border-b border-[#e9e6ea] dark:border-[#2c2e44] font-josefin"
             >
-              <div className="h-6 w-6 cursor-pointer border rounded-full border-gray-300 hover:border-gray-500 dark:border-gray-700 hover:dark:border-gray-600" />
-              <div className="text-[#606272] dark:text-[#cbcce4]">
-                {item.name}
+              <div className="flex flex-row gap-4">
+                <div
+                  onClick={() => setTaskComplete(item.id)}
+                  className="h-6 w-6 flex items-center justify-center cursor-pointer border rounded-full border-gray-300 hover:border-gray-500 dark:border-gray-700 hover:dark:border-gray-600"
+                >
+                  {item.type === "completed" && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="11"
+                      height="9"
+                    >
+                      <path
+                        fill="none"
+                        stroke="#721C79"
+                        strokeWidth="2"
+                        d="M1 4.304L3.696 7l6-6"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <div
+                  className={`text-[#606272] dark:text-[#cbcce4] ${
+                    item.type === "completed" ? "line-through" : ""
+                  }`}
+                >
+                  {item.name}
+                </div>
               </div>
+              <svg
+                className="group-hover:opacity-100 opacity-0 group-hover:cursor-pointer"
+                onClick={() => deleteTask(item.id)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+              >
+                <path
+                  fill="#494C6B"
+                  fillRule="evenodd"
+                  d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
+                />
+              </svg>
             </li>
           );
         })}
@@ -75,7 +101,10 @@ function TodoLIst() {
             );
           })}
         </div>
-        <span className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 transition-all cursor-pointer">
+        <span
+          onClick={() => pushToDoList([])}
+          className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 transition-all cursor-pointer"
+        >
           Clear Completed
         </span>
       </div>
