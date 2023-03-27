@@ -43,14 +43,20 @@ export const ContextProvider = (props: any) => {
   };
 
   React.useEffect(() => {
-    if (todoList.length > 0) {
-      window.localStorage.setItem("todo", JSON.stringify(todoList));
-    }
-  }, [todoList]);
+    const storedTodoList = JSON.parse(localStorage.getItem("todo") || "[]");
+    pushToDoList(storedTodoList);
+  }, []);
 
   React.useEffect(() => {
-    pushToDoList(JSON.parse(window.localStorage.getItem("todo") || "[]"));
-  }, []);
+    const timeoutId = setTimeout(() => {
+      if (todoList.length === 0) {
+        localStorage.removeItem("todo");
+      } else {
+        localStorage.setItem("todo", JSON.stringify(todoList));
+      }
+    });
+    return () => clearTimeout(timeoutId);
+  }, [todoList]);
 
   const value = {
     theme,
