@@ -1,29 +1,19 @@
 import React from "react";
+import { FilterTabType, TodoListType } from "@/types/index";
 
 export const Context = React.createContext<any>(null);
 
-export type FilterTabs = {
-  id: number;
-  name: string;
-};
-
-export type TodoList = {
-  id: string;
-  name: string;
-  type: string;
-};
+const filterTabs: FilterTabType[] = [
+  { id: 1, name: "All" },
+  { id: 2, name: "Active" },
+  { id: 3, name: "Completed" },
+];
 
 export const ContextProvider = (props: any) => {
   const { children } = props;
   const [theme, setTheme] = React.useState<string | null>(null);
 
-  const filterTabs: FilterTabs[] = [
-    { id: 1, name: "All" },
-    { id: 2, name: "Active" },
-    { id: 3, name: "Completed" },
-  ];
-
-  const [todoList, pushToDoList] = React.useState<TodoList[]>([]);
+  const [todoList, pushToDoList] = React.useState<TodoListType[]>([]);
 
   const deleteTask = (id: string) => {
     pushToDoList(todoList.filter((todo) => todo.id !== id));

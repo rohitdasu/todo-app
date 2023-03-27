@@ -1,7 +1,8 @@
-import { Context, TodoList } from "@/context/index";
-import { useGenerateRandomId } from "@/hooks/index";
 import React, { useContext, useRef } from "react";
+import { Context } from "@/context/index";
+import { useGenerateRandomId } from "@/hooks/index";
 import TodoLIst from "./TodoLIst";
+import { TodoListType } from "@/types/index";
 
 function TodoComponent() {
   const task = useRef<HTMLInputElement>(null);
@@ -11,7 +12,7 @@ function TodoComponent() {
     const text = task.current?.value;
     if (!text) return;
     if (e.key === "Enter") {
-      pushToDoList((tasks: TodoList[]) => [
+      pushToDoList((tasks: TodoListType[]) => [
         ...tasks,
         { id: useGenerateRandomId(), name: text, type: "active" },
       ]);
