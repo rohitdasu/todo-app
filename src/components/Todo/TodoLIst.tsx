@@ -5,12 +5,18 @@ import React, { useContext } from "react";
 function TodoLIst() {
   const { todoList, filterTabs, clearCompleted, deleteTask, setTaskComplete } =
     useContext(Context);
-  const [selectedFilterTab, setSelectedFilterTab] = React.useState("All");
+  const [selectedFilterTab, setSelectedFilterTab] = React.useState(
+    localStorage.getItem("filterTab") || "All"
+  );
 
   const getActiveTasksLength = () => {
     return todoList.filter((item: TodoListType) => item.type === "active")
       .length;
   };
+
+  React.useEffect(() => {
+    localStorage.setItem("filterTab", selectedFilterTab);
+  }, [selectedFilterTab]);
 
   const getFilteredTasks = () => {
     return todoList
